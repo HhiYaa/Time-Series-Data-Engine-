@@ -1,0 +1,87 @@
+CLASS DESIGN
+
+Graph Class (Defined in Graph.h and Graph.cpp)
+What It Does: This class builds an undirected graph where each node is a country, and edges show relationships between countries based on their time series data.
+Key Components:
+std::unordered_map<std::string, Node> nodes: A hash map linking country codes to Node structs, which hold the country's code, name, and a pointer to its TimeSeries object.
+std::unordered_map<std::string, std::unordered_map<std::string, Edge>> adjList: A nested hash map acting as an adjacency list. The outer key is the starting country code, the inner key is the connected country code, and the value is an Edge with a set of Relationship structs (each storing seriesCode, threshold, and relation).
+Main Functions:
+Graph(): Sets up an empty graph with no nodes or edges.
+initializeNodes(): Loads all countries from the global countries array into nodes and wipes out any existing edges.
+updateEdges(seriesCode, threshold, relation): Checks every pair of countries and adds an edge if their means for seriesCode meet the condition (e.g., both greater than threshold). It tracks if new edges are added.
+adjacent(countryCode, found): Grabs the names of all countries connected to countryCode and returns them in a vector.
+path(code1, code2): Uses a breadth-first search (BFS) to see if there's a way to get from code1 to code2.
+getRelationships(code1, code2): Lists all relationship tuples for the edge between two countries, if it exists.
+Supporting Pieces:
+Node: A simple struct with countryCode, countryName, and ts (a TimeSeries pointer).
+Relationship: A struct for the tuple (seriesCode, threshold, relation).
+Edge: Holds a std::set<Relationship> to keep unique relationships.
+BinaryTree Class (Defined in Binary.h and Binary.cpp)
+What It Does: Manages a binary search tree to organize countries by their time series means, helping me figure out relationships for the graph.
+Key Components:
+TreeNode* root: Points to the top of the BST.
+TimeSeries countries[MAX_SIZE]: Reuses the global array for data storage.
+Main Functions:
+build(seriesCode): Sorts countries by their means for a given seriesCode and builds the BST.
+buildTree(...): Recursively constructs the tree, grouping countries with the same mean and handling cases where means are zero.
+find(targetMean, operation): Searches for countries where the mean matches the condition (less, equal, or greater than targetMean).
+HashTable Class (Defined in HashTable.h and HashTable.cpp)
+What It Does: Quickly finds countries by their codes using double hashing, supporting other operations.
+Key Components:
+Slot table[TABLE_SIZE]: An array of slots, each with a countryCode, ts pointer, status, and owned flag.
+Main Functions:
+lookup(countryCode): Finds a country's slot using two hash functions.
+insert(countryCode, ts, owned): Adds a country to the table if it's not already there.
+TimeSeries Class (Defined in TimeSeries.h and TimeSeries.cpp)
+What It Does: Holds time series data for each country and calculates means for the graph's relationships.
+Key Components:
+TimeSeriesNode* head: A linked list of time series entries.
+std::string Country_name, country_code: Basic country info.
+Main Functions:
+getMean(seriesCode): Calculates the average value for a specific series.
+load(filename): Reads data from a CSV into the global countries array.
+Main Program (main.cpp)
+What It Does: Ties everything together, reading commands and spitting out results.
+Key Components: Uses Graph, BinaryTree, and HashTable objects to process commands like INITIALIZE, UPDATE_EDGES, and PATH.
+
+
+ALTERNATIVES AND JUSTIFICATION
+Here's why I went with my design choices and what else I considered:
+
+Using std::unordered_map for the Graph's Adjacency List:
+Other Options: I could've used a std::vector for each node's neighbors or a big adjacency matrix.
+Why This Way: Most countries won't be connected to all others, so the graph is sparse. A hash map gives me fast O(1) lookups and insertions for edges, which is perfect for commands like adjacent. A matrix would waste tons of space (N^2 slots for N countries), and a vector would mean searching through all neighbors every time, which is slower.
+Storing Relationships in a std::set Inside Edge:
+Other Options: I thought about a vector and checking for duplicates myself or making Relationship a full class.
+Why This Way: The struct is simple and works fine for a tuple, and std::set automatically keeps things unique, which the project requires. A vector would've made me write extra code to avoid repeats, slowing down updateEdges.
+Pointing to the Global countries Array in Graph:
+Other Options: I could've copied all the TimeSeries data into each Node or used smart pointers.
+Why This Way: The project says LOAD only happens once, so the global array sticks around. Using pointers saves memory and keeps everything in sync with the BinaryTree and HashTable. Copying would've bloated the program, and smart pointers felt like overkill since the data's lifetime is the whole program.
+Picking BFS for the path Function:
+Other Options: Depth-first search (DFS) or something fancier like Dijkstra's algorithm.
+Why This Way: BFS finds a path if there is one and runs in O(V + E) time, which is all I need for a yes/no answer. DFS might wander too much, and I don't need shortest paths since edges aren't weighted.
+Keeping the BinaryTree for Finding Relationships:
+Other Options: I could've skipped the BST and just compared means directly in Graph.
+Why This Way: The project hints at reusing the BST from Project 3. It organizes the data so I can efficiently find countries with certain means, which helps updateEdges avoid checking every pair from scratch every time.
+
+
+RUNTIME ANALYSIS
+Runtime for the ADJACENT command is O(D), where D is the number of countries connected to the given country.
+
+Here's Why:
+
+How It Works: In Graph::adjacent(countryCode, found):
+I look up countryCode in nodes to make sure it exists. That's O(1) since it's a hash map.
+If it's there, I grab adjList[countryCode], another O(1) hash map lookup.
+Then I loop through all the countries listed in that inner hash map (there are D of them):
+For each one, I get its name from nodes (O(1)).
+I add the name to a vector (O(1) per addition, amortized).
+Finally, I return the vector with D names.
+Breaking It Down:
+Checking nodes: O(1).
+Getting the adjacency list: O(1).
+Looping through D neighbors: D steps, each O(1), so O(D) total.
+Overall: O(1) + O(1) + O(D) = O(D).
+Worst Case: If one country connects to almost all others, D could be N-1, making it O(N). But usually, D is much smaller, so O(D) feels more realistic for this graph.
+STL Details: The hash maps (unordered_map) are O(1) on average, though they could hit O(N) if there's a ton of collisions. The project's test cases seem designed to avoid that, so I'm sticking with the average case.
+Final Thought: O(D) makes sense as it's just the time to list out all the neighbors, which fits how adjacency lists work.
