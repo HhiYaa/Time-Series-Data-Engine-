@@ -1,0 +1,39 @@
+Load
+List
+Range 
+Ignore zeros
+EG.ELC.ACCS.ZS 
+4.475  100
+IC.TAX.DURS 
+21.7333  2179.29
+Build
+EG.CFT.ACCS.UR.ZS
+FIND 0 equal 
+American Samoa Aruba Bermuda British Virgin Islands Bulgaria Cayman Islands Channel Islands Curacao Faroe Islands French Polynesia Gibraltar Greenland Guam Hong Kong S AR. China Isle of Man Kosovo Lebanon Libya Liechtenstein Macao SAR. China New Caledonia Northern Mariana Islands Puerto Rico Sint Maarten (Dutch part) st. Martin (Fren ch part) Turks and Caicos Islands Virgin Islands (U.S.) West .Bank and Gaza Not classified
+
+FIND 100 equal 
+Andorra Antigua and Barbuda Australia Austria Bahamas. The Bahrain Barbados Belgium Brunei Darussalam Canada Chile Croatia Cyprus Czechia Dermark Estonia Finland Franc e Germany Greece Guyana Hungary Iceland Ireland Israel Italy Japan Korea. Rep. Kuwait Latvia Lituania Luxembourg Malta Monaco Nauru Netherlands New Zealand Norway Oma n Panama Poland Portugal Qatar Romania San Marino Saudi Arabia Seychelles Singapore Slovak Republic Slovenia Spain, St. Kitts and Nevis Sweden Switzerland Trinidad and
+Tobago United Arab Emirates United Kingdom United States Uruguay Central Europe and the Baltics Euro area European Union North America
+
+ 
+FIND=3.93
+Benin output
+Build and find
+
+
+Build and find
+0 equal
+American Samoa, Aruba, Bermuda, British Virgin Islands, Bulgaria, Cayman Islands, Channel Islands, Curacao, Faroe Islands, French Polynesia, Gibraltar, Greenland, Guam, Hong Kong SAR. China, Isle of Man, Kosovo, Lebanon, Libya, Liechtenstein, Macao SAR. China, New Caledonia, Northern Mariana Islands, Puerto Rico, Sint Maarten (Dutch part), St. Martin (French part), Turks and Caicos Islands, Virgin Islands (U.S.), West Bank and Gaza, Not classified
+DEBUG: Found countries: American Samoa, Aruba, Bermuda, British Virgin Islands, Bulgaria, Cayman Islands, Channel Islands, Curacao, Faroe Islands, French Polynesia, Gibraltar, Greenland, Guam, Hong Kong SAR. China, Isle of Man, Kosovo, Lebanon, Libya, Liechtenstein, Macao SAR. China, New Caledonia, Northern Mariana Islands, Puerto Rico, Sint Maarten (Dutch part), St. Martin (French part), Turks and Caicos Islands, Virgin Islands (U.S.), West Bank and Gaza, Not classified
+American Samoa, Aruba, Bermuda, British Virgin Islands, Bulgaria, Cayman Islands, Channel Islands, Curacao, Faroe Islands, French Polynesia, Gibraltar, Greenland, Guam, Hong Kong SAR. China, Isle of Man, Kosovo, Lebanon, Libya, Liechtenstein, Macao SAR. China, New Caledonia, Northern Mariana Islands, Puerto Rico, Sint Maarten (Dutch part), St. Martin (French part), Turks and Caicos Islands, Virgin Islands (U.S.), West Bank and Gaza, Not classified
+
+Build and find
+Limits —- pre sure this is build and find
+Highest 
+Find 100 equal,  same list as highest
+Lowest 
+Find 0 equal,  same list as lowest 
+Limits —- build and find
+Limits
+Delete
+Limit 
